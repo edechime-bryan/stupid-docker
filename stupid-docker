@@ -1,11 +1,11 @@
 #!/bin/bash
 
 clear
-echo "============================================"
-echo "  Stupid Docker - A Docker Config Script for total beginners"
-echo "  Author: Edechime Bryan"
-echo "============================================"
-sleep 2
+echo "================================================================================"
+echo "  Stupid Docker - A Self-Explanatory Docker Config Script for total beginners"
+echo "                            Author: Edechime Bryan"
+echo "================================================================================"
+sleep 3
 
 
 
@@ -71,28 +71,29 @@ while true; do
     echo " Docker Management Menu"
     echo "=============================="
     echo "1) Pull Docker Image"
-    echo "2) Search Docker Image"
-    echo "3) List Docker Images"
+    echo "2) Search for Docker Image"
+    echo "3) List Local Docker Images"
     echo "4) Run Container"
     echo "5) List Running Containers"
     echo "6) List All Containers"
     echo "7) Stop Container"
-    echo "8) Remove Container"
-    echo "9) Remove Image"
-    echo "10) Docker Command Manual - Advanced (Type 'q' to exit manual page)"
-    echo "11) Exit"
+    echo "8) Start Container (Start a previously run container)"
+    echo "9) Remove Container"
+    echo "10) Remove Image"
+    echo "11) Advanced Docker Command Manual (Type 'q' to exit manual page)"
+    echo "12) Exit"
     echo "=============================="
 
     read -rp "Choose an option: " choice
 
     case $choice in
         1)
-            read -rp "Enter image name (e.g ubuntu:22.04): " image
+            read -rp "Enter image name followed by a colon and version (e.g ubuntu:22.04). Leave blank to pull latest version: " image
             docker pull "$image"
             pause
             ;;
 	2)
-	    read -rp "Enter search term (e.g ubuntu or fedora): " term
+	    read -rp "Enter search term (e.g ubuntu or fedora or nginx): " term
 	    docker search "$term"
 	    pause
 	    ;;
@@ -101,8 +102,8 @@ while true; do
             pause
             ;;
         4)
-            read -rp "Enter image name: " image
-            read -rp "Enter container name: " cname
+            read -rp "Enter the image name followed by a colon and version (e.g centos:8). Leave blank to use the latest version : " image
+            read -rp "Name your container: " cname
             docker run -it --name "$cname" "$image"
             pause
             ;;
@@ -119,21 +120,26 @@ while true; do
             docker stop "$cid"
             pause
             ;;
-        8)
+	8)  
+	    read -rp "Enter container ID or name: " cid
+	    docker start "$cid"
+	    pause
+	    ;;
+        9)
             read -rp "Enter container ID or name: " cid
             docker rm "$cid"
             pause
             ;;
-        9)
+        10)
             read -rp "Enter image ID or name: " img
             docker rmi "$img"
             pause
             ;;
-	10)
+	11)
 	    docker --help | less
             pause
 	    ;;
-        11)
+        12)
             echo "Goodbye 👋"
             exit 0
             ;;
