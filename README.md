@@ -56,19 +56,19 @@ cd stupid-docker
 ### 3️⃣ Make the script executable
 
 ```bash
-chmod +x stupid-docker.sh
+chmod +x stupid-docker
 ```
 
 ### 4️⃣ Run the script (IMPORTANT)
 
 ```bash
-./stupid-docker.sh
+./stupid-docker
 ```
 
 ⚠️ **Do NOT run it like this:**
 
 ```bash
-stupid-docker.sh
+stupid-docker
 ```
 
 Linux requires `./` to run scripts in the current directory.
