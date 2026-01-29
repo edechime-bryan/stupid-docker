@@ -1,0 +1,147 @@
+#!/bin/bash
+
+clear
+echo "============================================"
+echo "  Stupid Docker - A Docker Config Script for total beginners"
+echo "  Author: Edechime Bryan"
+echo "============================================"
+sleep 2
+
+
+
+install_docker_debian() {
+    sudo apt update
+    sudo apt install -y ca-certificates curl gnupg lsb-release
+    curl -fsSL https://get.docker.com | sudo bash
+}
+
+install_docker_rhel() {
+    sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo yum install -y docker-ce docker-ce-cli containerd.io
+}
+
+install_docker_arch() {
+    sudo pacman -Sy --noconfirm docker
+}
+
+install_docker_suse() {
+    sudo zypper install -y docker
+}
+
+start_docker() {
+    sudo systemctl enable docker
+    sudo systemctl start docker
+}
+
+pause() {
+    read -rp "Press Enter to continue..."
+}
+
+
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed."
+    echo "Which Linux family are you using?"
+    echo "1) Debian / Ubuntu"
+    echo "2) RHEL / CentOS / Fedora"
+    echo "3) Arch"
+    echo "4) SUSE"
+
+    read -rp "Enter choice (1-4): " distro
+
+    case $distro in
+        1) install_docker_debian ;;
+        2) install_docker_rhel ;;
+        3) install_docker_arch ;;
+        4) install_docker_suse ;;
+        *) echo "Invalid option"; exit 1 ;;
+    esac
+
+    start_docker
+    echo "Docker installed successfully!"
+else
+    echo "Docker is already installed."
+fi
+
+sleep 2
+
+while true; do
+    clear
+    echo "=============================="
+    echo " Docker Management Menu"
+    echo "=============================="
+    echo "1) Pull Docker Image"
+    echo "2) Search Docker Image"
+    echo "3) List Docker Images"
+    echo "4) Run Container"
+    echo "5) List Running Containers"
+    echo "6) List All Containers"
+    echo "7) Stop Container"
+    echo "8) Remove Container"
+    echo "9) Remove Image"
+    echo "10) Docker Command Manual - Advanced (Type 'q' to exit manual page)"
+    echo "11) Exit"
+    echo "=============================="
+
+    read -rp "Choose an option: " choice
+
+    case $choice in
+        1)
+            read -rp "Enter image name (e.g ubuntu:22.04): " image
+            docker pull "$image"
+            pause
+            ;;
+	2)
+	    read -rp "Enter search term (e.g ubuntu or fedora): " term
+	    docker search "$term"
+	    pause
+	    ;;
+        3)
+            docker images
+            pause
+            ;;
+        4)
+            read -rp "Enter image name: " image
+            read -rp "Enter container name: " cname
+            docker run -it --name "$cname" "$image"
+            pause
+            ;;
+        5)
+            docker ps
+            pause
+            ;;
+        6)
+            docker ps -a
+            pause
+            ;;
+        7)
+            read -rp "Enter container ID or name: " cid
+            docker stop "$cid"
+            pause
+            ;;
+        8)
+            read -rp "Enter container ID or name: " cid
+            docker rm "$cid"
+            pause
+            ;;
+        9)
+            read -rp "Enter image ID or name: " img
+            docker rmi "$img"
+            pause
+            ;;
+	10)
+	    docker --help | less
+            pause
+	    ;;
+        11)
+            echo "Goodbye 👋"
+            exit 0
+            ;;
+        *)
+            echo "Invalid option"
+            sleep 1
+            ;;
+    esac
+done
+
+
