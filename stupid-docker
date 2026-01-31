@@ -140,7 +140,7 @@ while true; do
             pause
 	    ;;
         12)
-            echo "Goodbye 👋"
+            echo "Exiting Docker....Goodbye"
             exit 0
             ;;
         *)
