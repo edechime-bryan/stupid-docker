@@ -10,7 +10,7 @@ It is designed for:
 
 ---
 
-## ✨ Features
+##  Features
 
 * Automatically installs Docker (based on your Linux distro)
 * Supports:
@@ -30,16 +30,16 @@ It is designed for:
 
 ---
 
-## 📦 Requirements
+##  Requirements
 
-* Linux system
+* Linux System (Bare metal, WSL2, Virtual Machines all compatible)
 * Bash shell
-* sudo privileges
+* Sudo privileges
 * Internet connection
 
 ---
 
-## 🚀 Installation & Usage
+##  Installation & Usage
 
 ### 1️⃣ Clone the repository
 
@@ -75,7 +75,7 @@ Linux requires `./` to run scripts in the current directory.
 
 ---
 
-## 🧠 Why `./` Is Required
+##  Why `./` Is Required
 
 For security reasons, Linux does **not** run files from the current directory automatically.
 
@@ -85,7 +85,7 @@ For security reasons, Linux does **not** run files from the current directory au
 
 ---
 
-## 📋 Menu Options
+##  Menu Options
 
 | Option | Description             |
 | ------ | ----------------------- |
@@ -104,7 +104,7 @@ For security reasons, Linux does **not** run files from the current directory au
 
 ---
 
-## 🐧 Supported Linux Distros
+##  Supported Linux Distros
 
 * Ubuntu / Debian
 * CentOS / RHEL / Fedora
@@ -117,8 +117,8 @@ For security reasons, Linux does **not** run files from the current directory au
 
 * Script must be run with **sudo privileges**
 * Docker will be installed automatically if not found
-* Uses official Docker installation methods
-* Designed for learning and convenience — not production automation
+* Uses official Docker installation methods and scripts from https://docs.docker.com/engine/install/
+* Designed for learning and convenience — not to substitute docker (Still uses the docker engine)
 
 ---
 
