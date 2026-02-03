@@ -10,23 +10,70 @@ sleep 3
 
 
 install_docker_debian() {
-    sudo apt update
-    sudo apt install -y ca-certificates curl gnupg lsb-release
-    curl -fsSL https://get.docker.com | sudo bash
+	# Add Docker's official GPG key:
+	sudo apt update
+	sudo apt install ca-certificates curl -y
+	sudo install -m 0755 -d /etc/apt/keyrings -y
+	sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+	# Add the repository to Apt sources:
+	sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+	Types: deb
+	URIs: https://download.docker.com/linux/debian
+	Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+	Components: stable
+	Signed-By: /etc/apt/keyrings/docker.asc
+	EOF
+
+	sudo apt update
+	sudo apt -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
 install_docker_rhel() {
-    sudo yum install -y yum-utils
-    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo yum install -y docker-ce docker-ce-cli containerd.io
+    	sudo dnf -y install dnf-plugins-core
+	sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+	sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
 install_docker_arch() {
-    sudo pacman -Sy --noconfirm docker
+    	sudo pacman -Sy --noconfirm docker
 }
 
 install_docker_suse() {
-    sudo zypper install -y docker
+    	sudo zypper install -y docker
+}
+
+install_docker_centos() {
+    	sudo dnf -y install dnf-plugins-core
+	sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+	sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+}
+
+install_docker_fedora() {
+	sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
+	sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+}
+
+install_docker_ubuntu() {
+	# Add Docker's official GPG key:
+	sudo apt update
+	sudo apt install ca-certificates curl -y
+	sudo install -m 0755 -d /etc/apt/keyrings -y
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+	# Add the repository to Apt sources:
+	sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+	Types: deb
+	URIs: https://download.docker.com/linux/ubuntu
+	Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+	Components: stable
+	Signed-By: /etc/apt/keyrings/docker.asc
+	EOF
+
+	sudo apt update
+	sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 }
 
 start_docker() {
@@ -41,19 +88,36 @@ pause() {
 
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed."
-    echo "Which Linux family are you using?"
-    echo "1) Debian / Ubuntu"
-    echo "2) RHEL / CentOS / Fedora"
+    echo "Which Linux distro are you using?"
+    echo "1) Debian"
+    echo "2) RHEL"
     echo "3) Arch"
     echo "4) SUSE"
+    echo "5) CentOS"
+    echo "6) Fedora"
+    echo "7) Ubuntu"
 
-    read -rp "Enter choice (1-4): " distro
+
+
+
+    read -rp "Enter choice (1-7): " distro
 
     case $distro in
         1) install_docker_debian ;;
         2) install_docker_rhel ;;
         3) install_docker_arch ;;
-        4) install_docker_suse ;;
+        4)
+	echo "The Docker package repository for SLES s390x is no longer maintained and docker updates are no longer supported on SUSE."
+	read -rp "Proceed with installation of older version regardless? (yes/no)" reply
+	if [[ "$reply" == "yes" ]]; then
+	install_docker_suse
+	else
+	exit 1
+	fi
+	;;
+	5) install_docker_centos ;;
+	6) install_docker_fedora ;;
+	7) install_docker_ubuntu ;;
         *) echo "Invalid option"; exit 1 ;;
     esac
 
