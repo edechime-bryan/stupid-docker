@@ -82,6 +82,8 @@ start_docker() {
     sudo systemctl start docker
     sudo usermod -aG docker $USER
     newgrp docker
+    sleep 3
+    ./stupid-docker
 }
 
 pause() {
