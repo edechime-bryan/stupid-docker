@@ -89,6 +89,12 @@ For security reasons, Linux does **not** run files from the current directory au
 
 > “Run this file from *this* directory.”
 
+### 5️⃣ Rf you used theis script to just install docker, run it again (Ignore if Docker was previously installed)
+
+```bash
+./stupid-docker
+```
+
 ---
 
 ##  Menu Options

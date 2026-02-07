@@ -81,9 +81,9 @@ start_docker() {
     sudo systemctl enable docker
     sudo systemctl start docker
     sudo usermod -aG docker $USER
+    echo "Docker successfuly installed and initialized, re-run './stupid-docker' once script ends"
+    sleep 4
     newgrp docker
-    sleep 3
-    ./stupid-docker
 }
 
 pause() {
@@ -127,7 +127,6 @@ if ! command -v docker &> /dev/null; then
     esac
 
     start_docker
-    echo "Docker installed successfully!"
 else
     echo "Docker is already installed."
 fi
