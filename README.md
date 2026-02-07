@@ -89,7 +89,7 @@ For security reasons, Linux does **not** run files from the current directory au
 
 > “Run this file from *this* directory.”
 
-### 5️⃣ Rf you used theis script to just install docker, run it again (Ignore if Docker was previously installed)
+### 5️⃣ If you previously ran this script to install Docker, run it again (./stupid-docker). Ignore this step if Docker was already installed.
 
 ```bash
 ./stupid-docker
