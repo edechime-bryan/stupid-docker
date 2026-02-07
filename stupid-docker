@@ -81,8 +81,7 @@ start_docker() {
     sudo systemctl enable docker
     sudo systemctl start docker
     sudo usermod -aG docker $USER
-    echo "Docker successfuly installed and initialized, re-run './stupid-docker' once script ends"
-    sleep 4
+    echo "Docker successfuly installed and initialized, re-run './stupid-docker' now"
     newgrp docker
 }
 
