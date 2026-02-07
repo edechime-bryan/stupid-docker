@@ -8,6 +8,12 @@ It is designed for:
 * Users who don’t want to memorize Docker commands
 * Quick Docker setup on Linux systems
 
+
+**Why use Stupid Docker when Docker Desktop already exists?** 
+Well, for starters, Docker Desktop is extremely bloated and uses more than the required resources to run. 
+Which ultimately drives people to use CLI instead. CLI by default, is a teeny bit complicated for beginners and repetitive even for people who already know what they are doing. 
+That is where **Stupid Docker** comes in. **Stupid Docker** can run easily on your 2007 Microwave Potato Computer. 
+
 ---
 
 ##  Features
