@@ -118,8 +118,8 @@ For security reasons, Linux does **not** run files from the current directory au
 
 ##  Supported Linux Distros
 
-* Ubuntu / Debian
-* CentOS / RHEL / Fedora
+* Debian / Ubunru
+* RHEL / CentOS / Fedora
 * Arch Linux
 * SUSE
 
@@ -137,7 +137,7 @@ For security reasons, Linux does **not** run files from the current directory au
 ## 👨‍💻 Author
 
 **Edechime Bryan**
-Beginner-friendly Linux & DevOps tooling
+Professional Bash Scripter
 
 ---
 
