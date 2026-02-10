@@ -1,10 +1,9 @@
 #!/bin/bash
 
 clear
-echo "================================================================================"
-echo "  Stupid Docker - A Self-Explanatory Docker Config Script for total beginners"
-echo "                            Author: Edechime Bryan"
-echo "================================================================================"
+echo "================================================================"
+echo "   Stupid Docker - A Command Line Docker Interface for Noobs"
+echo "================================================================"
 sleep 3
 
 
