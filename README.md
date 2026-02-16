@@ -105,14 +105,15 @@ For security reasons, Linux does **not** run files from the current directory au
 | 2      | Search Docker Hub       |
 | 3      | List Docker images      |
 | 4      | Run a container         |
-| 5      | List running containers |
-| 6      | List all containers     |
-| 7      | Stop a container        |
-| 8      | Start a container       |
-| 9      | Remove a container      |
-| 10     | Remove an image         |
-| 11     | Docker help manual      |
-| 12     | Exit                    |
+| 5      | Execute Command         |
+| 6      | List running containers |
+| 7      | List all containers     |
+| 8      | Stop a container        |
+| 9      | Start a container       |
+| 10     | Remove a container      |
+| 11     | Remove an image         |
+| 12     | Docker help manual      |
+| 13     | Exit                    |
 
 ---
 
