@@ -140,14 +140,15 @@ while true; do
     echo "2) Search for Docker Image"
     echo "3) List Local Docker Images"
     echo "4) Run Container"
-    echo "5) List Running Containers"
-    echo "6) List All Containers"
-    echo "7) Stop Container"
-    echo "8) Start Container (Start a previously run container)"
-    echo "9) Remove Container"
-    echo "10) Remove Image"
-    echo "11) Advanced Docker Command Manual (Type 'q' to exit manual page)"
-    echo "12) Exit"
+    echo "5) Execute Command in Container Terminal"
+    echo "6) List Running Containers"
+    echo "7) List All Containers"
+    echo "8) Stop Container"
+    echo "9) Start Container (Start a previously run container)"
+    echo "10) Remove Container"
+    echo "11) Remove Image"
+    echo "12) Advanced Docker Command Manual (Type 'q' to exit manual page)"
+    echo "13) Exit"
     echo "=============================="
 
     read -rp "Choose an option: " choice
@@ -173,40 +174,45 @@ while true; do
             docker run -it --name "$cname" "$image"
             pause
             ;;
-        5)
+	5)
+	    read -rp "Enter the container name: " cname
+	    docker exec -it "$cname" bash
+	    pause
+	    ;;
+        6)
             docker ps
             pause
             ;;
-        6)
+        7)
             docker ps -a
             pause
             ;;
-        7)
+        8)
             read -rp "Enter container ID or name: " cid
             docker stop "$cid"
             pause
             ;;
-	8)  
+	9)  
 	    read -rp "Enter container ID or name: " cid
 	    docker start "$cid"
 	    pause
 	    ;;
-        9)
+        10)
             read -rp "Enter container ID or name: " cid
             docker rm "$cid"
             pause
             ;;
-        10)
+        11)
             read -rp "Enter image ID or name: " img
             docker rmi "$img"
             pause
             ;;
-	11)
+	12)
 	    docker --help | less
             pause
 	    ;;
-        12)
-            echo "Exiting Docker....Goodbye"
+        13)
+            echo "Exiting Stupid Docker....Goodbye"
             exit 0
             ;;
         *)
