@@ -88,6 +88,57 @@ pause() {
     read -rp "Press Enter to continue..."
 }
 
+remove_docker_debian() {
+	# Stop Docker services
+	sudo systemctl stop docker
+	sudo systemctl stop docker.socket
+	sudo systemctl stop containerd
+	sudo docker system prune --all --volumes
+
+	# Uninstall packages and dependencies
+	sudo apt purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+	sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce
+
+	# Delete orphaned images, volumes and data
+	sudo umount /var/lib/docker/
+	sudo rm -rf /var/lib/docker /etc/docker
+	sudo rm /etc/apparmor.d/docker
+	sudo groupdel docker
+	sudo rm -rf /var/run/docker.sock
+	sudo rm -rf /var/lib/containerd
+	sudo rm -rf /usr/bin/docker
+	sudo rm -rf /usr/bin/docker-compose
+	rm -r $HOME/.docker
+
+	# Remove sources and keyrings
+	sudo rm /etc/apt/sources.list.d/docker.sources
+	sudo rm /etc/apt/keyrings/docker.asc
+	echo "Docker successfully uninstalled. All volumes, images and containers deleted"
+	newgrp
+}
+
+remove_docker_ubuntu() {
+	remove_docker_debian
+}
+
+remove_docker_arch() {
+	sudo systemctl stop docker
+	sudo systemctl stop docker.service
+	sudo pacman -Rns --noconfirm docker
+	
+	# Delete orphaned images, volumes and data
+	sudo umount /var/lib/docker/
+	sudo rm -rf /var/lib/docker /etc/docker
+	sudo rm /etc/apparmor.d/docker
+	sudo groupdel docker
+	sudo rm -rf /var/run/docker.sock
+	sudo rm -rf /var/lib/containerd
+	sudo rm -rf /usr/bin/docker
+	sudo rm -rf /usr/bin/docker-compose
+	rm -r $HOME/.docker
+	echo "Docker successfully uninstalled. All volumes, images and containers deleted"
+	newgrp
+}
 
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed."
@@ -147,8 +198,9 @@ while true; do
     echo "9) Start Container (Start a previously run container)"
     echo "10) Remove Container"
     echo "11) Remove Image"
-    echo "12) Advanced Docker Command Manual (Type 'q' to exit manual page)"
-    echo "13) Exit"
+    echo "12) Uninstall Docker"
+    echo "13) Advanced Docker Command Manual (Type 'q' to exit manual page)"
+    echo "14) Exit"
     echo "=============================="
 
     read -rp "Choose an option: " choice
@@ -208,10 +260,33 @@ while true; do
             pause
             ;;
 	12)
+    	    echo "Which Linux distro are you using?"
+    	    echo "1) Debian"
+    	    echo "2) RHEL"
+    	    echo "3) Arch"
+    	    echo "4) SUSE"
+    	    echo "5) CentOS"
+    	    echo "6) Fedora"
+    	    echo "7) Ubuntu"
+
+	    read -rp "Enter choice (1-7): " distro
+
+	    case $distro in
+                1) remove_docker_debian ;;
+        	2) remove_docker_rhel ;;
+        	3) remove_docker_arch ;;
+                4) remove_docker_suse ;;
+		5) remove_docker_centos ;;
+		6) remove_docker_fedora ;;
+		7) remove_docker_ubuntu ;;
+        	*) echo "Invalid option"; exit 1 ;;
+    	    esac
+	    ;;
+	13)
 	    docker --help | less
             pause
 	    ;;
-        13)
+        14)
             echo "Exiting Stupid Docker....Goodbye"
             exit 0
             ;;
